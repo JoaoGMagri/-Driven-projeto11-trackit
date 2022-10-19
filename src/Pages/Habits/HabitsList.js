@@ -18,26 +18,11 @@ export default function HabitsList({ item }) {
                 Authorization: `Bearer ${token}`
             }
         }
-        let confirmation = prompt("Deseja mesmos apagar?");
-
-
-        if(confirmation === null) {
-            return;
-        }
-
-        if(confirmation.toUpperCase() === "SIM"){
-            
+        
+        if( window.confirm( 'Deseja mesmo apagar o hábito?' ) === true ){
             const promise = axios.delete(URL, config);
             promise.then((res) => { setUpdate([]) });
             promise.catch((err) => { alert('Error: ' + err.response.data.message) });
-
-        } else if(confirmation.toUpperCase() === "NÃO" || confirmation.toUpperCase() === "NAO" || confirmation.toUpperCase() === null){
-            return;
-        } else {
-            
-            alert("Responda 'sim' ou 'não'");
-            deleteHabits();
-        
         }
 
     }

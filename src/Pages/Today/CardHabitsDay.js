@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import CheckImage from "../../Assets/Images/check.png";
-import { useContext } from "react"
+import { useContext, useState } from "react"
 import { AuthContext } from "../../Contexts/auth"
 import axios from "axios";
 
@@ -51,8 +51,8 @@ export default function CardHabitsDay({ item }) {
                 <Text>
                     <h1>{item.name}</h1>
 
-                    <h2> Sequência atual: {item.currentSequence}</h2>
-                    <h2> Seu recorde: {item.highestSequence}</h2>
+                    <h2> Sequência atual: <Score colorText={item.done}>{item.currentSequence}</Score></h2>
+                    <h2> Seu recorde: <BestScore colorText={item.currentSequence >= item.highestSequence && item.currentSequence !== 0}>{item.highestSequence}</BestScore></h2>
 
                 </Text>
 
@@ -109,6 +109,12 @@ const Text = styled.div`
         font-size: 13px;
         color: #666666;
     }
+`
+const Score = styled.span`
+    color: ${props => props.colorText ? "#8FC549" : "#666666"} ;
+`
+const BestScore = styled.span`
+    color: ${props => props.colorText ? "#8FC549" : "#666666"} ;
 `
 const Check = styled.div`
     width: 69px;
