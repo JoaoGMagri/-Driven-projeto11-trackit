@@ -40,8 +40,6 @@ export default function BoxCreatingHabits({ staCreate, setStaCreate }) {
 
         if (obj.days.length > 0 && obj.name !== "") {
 
-            
-
             const promise = axios.post(URL, obj, config);
 
             promise.then((res) => {

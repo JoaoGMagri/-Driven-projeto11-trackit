@@ -12,10 +12,14 @@ function AuthProvider({children}){
 
     function percentageCalc( item ){
 
-        const x = item.filter( (item) => item.done === true )
-
-        const result = x.length / item.length;
-        setPercentage(result.toFixed(2) * 100);
+        if(item.length === 0){
+            setPercentage(0);
+        } else {
+            const x = item.filter( (item) => item.done === true )
+    
+            const result = x.length / item.length;
+            setPercentage(result.toFixed(2) * 100);
+        }
 
     }
     
