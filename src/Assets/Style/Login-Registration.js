@@ -62,6 +62,10 @@ export const InputField = styled.input`
 
 export const ButtonField = styled.button`
     
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     width: 303px;
     height: 45px;
     background: #52B6FF;

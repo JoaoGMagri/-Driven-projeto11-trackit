@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Soon, SoonName, Container, FormField, InputField, ButtonField, SpanField } from "../../Assets/Style/Login-Registration"
+import { ThreeDots } from "react-loader-spinner";
 import axios from "axios";
 
 export default function Registration() {
@@ -14,8 +15,10 @@ export default function Registration() {
     const [password, setPassword] = useState("");
     const [name, setName] = useState("");
     const [image, setImage] = useState("");
+    const [block, setBlock] = useState(false);
 
     function finish() {
+        setBlock(true)
         const obj = {
             email: email,
             name: name,
@@ -27,7 +30,10 @@ export default function Registration() {
         promise.then((res) => {
             navigate("/");
         });
-        promise.catch((err) => console.log(err.response.data));
+        promise.catch((err) => {
+            setBlock(false);
+            console.log(err.response.data.message);
+        });
 
     }
 
@@ -47,28 +53,34 @@ export default function Registration() {
                     type="email"
                     placeholder="email"
                     onChange={(item) => setEmail(item.target.value)}
+                    disabled={block}
                     required
                 />
                 <InputField
                     type="password"
                     placeholder="senha"
                     onChange={(item) => setPassword(item.target.value)}
+                    disabled={block}
                     required
                 />
                 <InputField
                     type="text"
                     placeholder="nome"
                     onChange={(item) => setName(item.target.value)}
+                    disabled={block}
                     required
                 />
                 <InputField
                     type="url"
                     placeholder="foto"
                     onChange={(item) => setImage(item.target.value)}
+                    disabled={block}
                     required
                 />
 
-                <ButtonField type="submit">Cadastrar</ButtonField>
+                <ButtonField type="submit" disabled={block}>
+                    {!block ? "Cadastrar" : <ThreeDots color="#FFF" />}
+                </ButtonField>
 
             </FormField>
 

@@ -17,7 +17,10 @@ export default function Today() {
 
             <TitleToday>
                 <h1>{day}</h1>
+                <h2>67% dos hábitos concluídos</h2>
             </TitleToday>
+
+            
 
             <Footer />
         </ContainerToday>

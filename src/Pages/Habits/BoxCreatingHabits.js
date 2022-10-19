@@ -3,30 +3,28 @@ import Week from "./Week"
 import { useState, useContext } from "react";
 import { AuthContext } from "../../Contexts/auth"
 import axios from "axios";
+import { ThreeDots } from "react-loader-spinner";
 
 export default function BoxCreatingHabits({ staCreate, setStaCreate }) {
-    
+
     const { token, setUpdate } = useContext(AuthContext);
 
     const [selectedWeek, setSelectedWeek] = useState([]);
     const [habitName, setHabitName] = useState("");
+    const [block, setBlock] = useState(false);
 
-    function selected(num){
-        
-        if(selectedWeek.includes(num)){
+    function selected(num) {
+
+        if (selectedWeek.includes(num)) {
             let newArray = selectedWeek.filter((item) => item !== num);
             setSelectedWeek([...newArray]);
-        } else{
-            setSelectedWeek( [...selectedWeek, num] );
+        } else {
+            setSelectedWeek([...selectedWeek, num]);
         }
 
     }
 
     function save() {
-
-        setStaCreate(false);
-        setSelectedWeek([]);
-        setHabitName("");
 
         const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits"
         const config = {
@@ -34,18 +32,36 @@ export default function BoxCreatingHabits({ staCreate, setStaCreate }) {
                 Authorization: `Bearer ${token}`
             }
         }
-
         const obj = {
             name: habitName,
             days: selectedWeek
         }
-        console.log(obj);
+        setBlock(true);
 
-        const promise = axios.post(URL, obj, config);
+        if (obj.days.length > 0 && obj.name !== "") {
 
-        promise.then((res) => setUpdate([]));
+            
 
-        promise.catch((err) => console.log(err.response.data));
+            const promise = axios.post(URL, obj, config);
+
+            promise.then((res) => {
+                setBlock(false);
+                setStaCreate(false);
+                setSelectedWeek([]);
+                setHabitName("");
+                setUpdate([]); 
+            });
+            promise.catch((err) => {console.log(err.response.data); setBlock(false);});
+        } else if (obj.days.length > 0) {
+            alert("Dê um nome para o seu hábito!");
+            setBlock(false);
+        } else if (obj.name !== "") {
+            alert("Selecione um dia da semana!");
+            setBlock(false);
+        } else {
+            alert("Preencha os campos disponiveis!");
+            setBlock(false);
+        }
 
     }
 
@@ -58,6 +74,7 @@ export default function BoxCreatingHabits({ staCreate, setStaCreate }) {
                 placeholder="nome do hábito"
                 value={habitName}
                 onChange={(item) => setHabitName(item.target.value)}
+                disabled={block}
             />
 
             <Week
@@ -67,8 +84,10 @@ export default function BoxCreatingHabits({ staCreate, setStaCreate }) {
 
             <ContainerConfirm>
 
-                <Confirm color="#FFF" letterColor="#52B6FF" onClick={( ) => setStaCreate(false)}> Cancelar </Confirm>
-                <Confirm color="#52B6FF" letterColor="#FFF" onClick={save}> Salvar </Confirm>
+                <Confirm color="#FFF" letterColor="#52B6FF" onClick={() => setStaCreate(false)}> Cancelar </Confirm>
+                <Confirm color="#52B6FF" letterColor="#FFF" onClick={save}>
+                    {!block ? "Salvar" : <ThreeDots color="#FFF" />}
+                </Confirm>
 
             </ContainerConfirm>
 

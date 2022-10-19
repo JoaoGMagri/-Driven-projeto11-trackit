@@ -7,7 +7,7 @@ import axios from "axios";
 export default function HabitsList({ item }) {
 
     const arrayWeek = ["D", "S", "T", "Q", "Q", "S", "S"]
-    const x = item.days;
+    const weekSelectd = item.days;
     const { token, setUpdate } = useContext(AuthContext);
 
     function deleteHabits(){
@@ -17,10 +17,9 @@ export default function HabitsList({ item }) {
             headers: {
                 Authorization: `Bearer ${token}`
             }
-        };
-
+        }
         let confirmation = prompt("Deseja mesmos apagar?");
-        console.log(confirmation)
+
 
         if(confirmation === null) {
             return;
@@ -29,21 +28,16 @@ export default function HabitsList({ item }) {
         if(confirmation.toUpperCase() === "SIM"){
             
             const promise = axios.delete(URL, config);
-            promise.then((res) => {
-                setUpdate([]);
-                console.log("sucesso");
-    
-            });
-            promise.catch((err) => {
-                console.log(err.response.data);
-                alert('Error: ' + err.response.data.message);
-            });
+            promise.then((res) => { setUpdate([]) });
+            promise.catch((err) => { alert('Error: ' + err.response.data.message) });
 
         } else if(confirmation.toUpperCase() === "NÃO" || confirmation.toUpperCase() === "NAO" || confirmation.toUpperCase() === null){
             return;
         } else {
+            
             alert("Responda 'sim' ou 'não'");
             deleteHabits();
+        
         }
 
     }
@@ -58,8 +52,8 @@ export default function HabitsList({ item }) {
                 <ContainerWeekDays>
 
                     {arrayWeek.map((item, i) => <WeekDays
-                        colorLetter={x.includes(i) ? true : false}
-                        backgroundColor={x.includes(i) ? true : false}
+                        colorLetter={ weekSelectd.includes(i) ? true : false }
+                        backgroundColor={ weekSelectd.includes(i) ? true : false }
                         key={i}
                     >
                         {item}

@@ -27,23 +27,17 @@ export default function Habits() {
         }
 
         const promise = axios.get(URL, config);
+        
         promise.then((res) => {
-
             setArrayHabits(res.data);
-            console.log("objeto Habits: ", res.data)
-
         });
         promise.catch((err) => {
-            console.log(err.response.data);
             alert('Error: ' + err.response.data.message);
-
             navigate("/");
-            
             window.location.reload();
         });
 
-    }, [update])
-    console.log("objeto Habits depois do useEffect: ", arrayHabits)
+    }, [update, navigate, token])
 
 
     return (
