@@ -1,12 +1,17 @@
 import styled from "styled-components";
 
+import { useContext } from "react";
+import { AuthContext } from "../../Contexts/auth"
+
 export default function Head(){
+
+    const { imageUser } = useContext(AuthContext);
 
     return(
 
         <ContainerHead>
             <TextSoon>TrackIt</TextSoon>
-            <ImageUser src="https://img.freepik.com/fotos-gratis/o-gato-vermelho-ou-branco-eu-no-estudio-branco_155003-13189.jpg?w=740&t=st=1666106012~exp=1666106612~hmac=1199719fce0c8b0d64bc7eef86fc504c323343c1bcb3d6ea14d65b83797ab745" alt="" />
+            <ImageUsers src={imageUser} alt="" />
         </ContainerHead>
 
     )
@@ -27,6 +32,7 @@ const ContainerHead = styled.div`
     box-sizing: border-box;
     padding: 18px;
 
+    z-index: 1;
     position: fixed;
     left: 0;
     top: 0;
@@ -41,7 +47,7 @@ const TextSoon = styled.h1`
     color: #FFFFFF;
 
 `
-const ImageUser = styled.img`
+const ImageUsers = styled.img`
 
     width: 51px;
     height: 51px;

@@ -1,13 +1,51 @@
-import { useContext } from "react"
+import { useContext, useState, useEffect } from "react"
 import { AuthContext } from "../../Contexts/auth"
 import styled from "styled-components";
 import Head from "../Components/Head";
 import Footer from "../Components/Footer";
+import BoxCreatingHabits from "./BoxCreatingHabits";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import HabitsList from "./HabitsList";
 
 export default function Habits() {
-    const { token } = useContext(AuthContext);
+    
+    const { token, update } = useContext(AuthContext);
+    const navigate = useNavigate();
 
-    console.log(token);
+    const [staCreate, setStaCreate] = useState(false);
+    const [arrayHabits, setArrayHabits] = useState([]);
+
+
+    useEffect(() => {
+
+        const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits";
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+
+        const promise = axios.get(URL, config);
+        promise.then((res) => {
+
+            setArrayHabits(res.data);
+            console.log("objeto Habits: ", res.data)
+
+        });
+        promise.catch((err) => {
+            console.log(err.response.data);
+            alert('Error: ' + err.response.data.message);
+
+            navigate("/");
+            
+            window.location.reload();
+        });
+
+    }, [update])
+    console.log("objeto Habits depois do useEffect: ", arrayHabits)
+
+
     return (
         <ContainerHabits>
 
@@ -15,8 +53,19 @@ export default function Habits() {
 
             <CreatingHabits>
                 <h1>Meus hábitos</h1>
-                <h2>+</h2>
+                <h2 onClick={() => { setStaCreate(true) }}>+</h2>
             </CreatingHabits>
+
+            <Box>
+                <BoxCreatingHabits staCreate={staCreate} setStaCreate={setStaCreate} />
+            </Box>
+
+            {( arrayHabits.length === 0 ) ? (
+                <Text>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</Text>
+            ) : (
+                arrayHabits.map( (item, i) => <HabitsList item={item} key={i} i={i}/>) 
+            )
+            }
 
             <Footer />
 
@@ -24,7 +73,6 @@ export default function Habits() {
     )
 
 }
-
 const ContainerHabits = styled.div`
 
     width: 100vw;
@@ -32,7 +80,8 @@ const ContainerHabits = styled.div`
 
     position: relative;
     background-color: #E5E5E5;
-    margin: 70px 0px;
+    margin-top: 70px;
+    margin-bottom: 95px;
 
 `
 const CreatingHabits = styled.div`
@@ -63,5 +112,25 @@ const CreatingHabits = styled.div`
 
         color: #FFFFFF;
     }
+
+`
+const Box = styled.div`
+    display: flex;
+    justify-content: center;
+`
+const Text = styled.div`
+
+    width: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px auto;
+
+    font-family: 'Lexend Deca';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    color: #666666;
+    word-break: break-word;
 
 `

@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { CircularProgressbarWithChildren, buildStyles } from 'react-circular-progressbar';
+import { Link } from "react-router-dom";
 
 export default function Footer() {
 
@@ -7,27 +8,33 @@ export default function Footer() {
 
         <ContainerFooter>
 
-            <Text>Hábitos</Text>
+            <Link to="/habitos">
+                <Text>Hábitos</Text>
+            </Link>
 
-            <CircularProgressbarWithChildren
-                value={50}
-                background
-                backgroundPadding={6}
-                styles={buildStyles({
-                    backgroundColor: "#52B6FF",
-                    textColor: "#FFF",
-                    pathColor: "#FFF",
-                    trailColor: "transparent",
-                    strokeLinecap: "round"
-                })}
-            >
+            <Link to="/hoje">
+                <CircularProgressbarWithChildren
+                    value={50}
+                    background
+                    backgroundPadding={6}
+                    styles={buildStyles({
+                        backgroundColor: "#52B6FF",
+                        textColor: "#FFF",
+                        pathColor: "#FFF",
+                        trailColor: "transparent",
+                        strokeLinecap: "round"
+                    })}
+                >
 
-                <TextProgress>Hoje</TextProgress>
-            
-            </CircularProgressbarWithChildren>
-            
+                    <TextProgress>Hoje</TextProgress>
 
-            <Text>Histórico</Text>
+                </CircularProgressbarWithChildren>
+            </Link>
+
+            <Link to="/historico">
+                <Text>Histórico</Text>
+            </Link>
+
 
         </ContainerFooter>
 
@@ -58,6 +65,9 @@ const ContainerFooter = styled.div`
         height: 100px;
         margin-bottom: 35px;
     }
+    a{
+        text-decoration: none;
+    }
 
 `
 const TextProgress = styled.p`
@@ -76,6 +86,7 @@ const Text = styled.span`
     font-style: normal;
     font-weight: 400;
     font-size: 17.976px;
-    color: #52B6FF;
+    color: #52B6FF;box-sizing: border-box;
+    padding-top: 18px;
 
 `

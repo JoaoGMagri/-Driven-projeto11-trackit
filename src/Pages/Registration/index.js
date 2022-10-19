@@ -23,10 +23,8 @@ export default function Registration() {
             password: password
         }
 
-        console.log(obj);
         const promise = axios.post(URL, obj);
         promise.then((res) => {
-            console.log(res);
             navigate("/");
         });
         promise.catch((err) => console.log(err.response.data));
