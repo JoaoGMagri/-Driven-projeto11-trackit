@@ -51,7 +51,7 @@ export default function BoxCreatingHabits({ staCreate, setStaCreate }) {
                 setHabitName("");
                 setUpdate([]); 
             });
-            promise.catch((err) => {console.log(err.response.data); setBlock(false);});
+            promise.catch((err) => {alert(err.response.data); setBlock(false);});
         } else if (obj.days.length > 0) {
             alert("Dê um nome para o seu hábito!");
             setBlock(false);

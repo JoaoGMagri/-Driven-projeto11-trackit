@@ -32,7 +32,7 @@ export default function Registration() {
         });
         promise.catch((err) => {
             setBlock(false);
-            console.log(err.response.data.message);
+            alert(err.response.data.message);
         });
 
     }
