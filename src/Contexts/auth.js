@@ -2,7 +2,7 @@ import { createContext, useState } from "react";
 
 export const AuthContext = createContext({});
 
-function AuthProvider({children}){
+export default function AuthProvider({children}){
     
     const [token, setToken] = useState(null);
     const [imageUser, setImageUser] = useState("");
@@ -16,7 +16,6 @@ function AuthProvider({children}){
             setPercentage(0);
         } else {
             const x = item.filter( (item) => item.done === true )
-    
             const result = x.length / item.length;
             setPercentage(result.toFixed(2) * 100);
         }
@@ -30,5 +29,3 @@ function AuthProvider({children}){
     );
 
 }
-
-export default AuthProvider;
